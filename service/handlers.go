@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"net/url"
 
+	"github.com/lab/go-proxy/mapper"
+
 	"github.com/lab/go-proxy/reverseproxy"
 )
 
@@ -38,11 +40,12 @@ func ReverseToFlaskSvc1Get(w http.ResponseWriter, r *http.Request) {
 }
 
 func ReverseToFlaskSvc1Post(w http.ResponseWriter, r *http.Request) {
-	path, err := url.Parse("http://0.0.0.0:9001/flask-svc-1-post")
+	path, err := url.Parse(mapper.Mapper["reverse-to-flask-svc-1-post"])
 	if err != nil {
 		panic(err)
 		return
 	}
 	proxy := reverseproxy.NewReverseProxy(path)
+
 	proxy.ServeHTTP(w, r)
 }
